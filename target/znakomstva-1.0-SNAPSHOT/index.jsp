@@ -11,8 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1>
-    dffkfff ddsd ds d dc
-</h1>
+Привет 
 </body>
 </html>
