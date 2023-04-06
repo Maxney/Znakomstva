@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <packaging>war</packaging>
-    <name>Servlet 3 Webapp with Jetty Plugin</name>
 
     <properties>
         <version.java>1.8</version.java>
@@ -25,25 +24,31 @@
               <scope>provided</scope>
           </dependency>
           <dependency>
-              <groupId>junit</groupId>
-              <artifactId>junit</artifactId>
-              <version>4.12</version>
-              <scope>test</scope>
+              <groupId>org.apache.tomcat</groupId>
+              <artifactId>tomcat-servlet-api</artifactId>
+              <version>${tomcat.version}</version>
           </dependency>
       </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.4</version>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
@@ -54,26 +59,6 @@
                 <configuration>
                     <source>${version.java}</source>
                     <target>${version.java}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.3.v20170317</version>
-                <configuration>
-                    <stopKey>C</stopKey>
-                    <stopPort>34343</stopPort>
-                    <httpConnector>
-                        <port>8080</port>
-                    </httpConnector>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
