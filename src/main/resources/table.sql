@@ -10,6 +10,7 @@ create table users
     searchinterests text[]
 );
 
+
 alter table users
     owner to postgres;
 

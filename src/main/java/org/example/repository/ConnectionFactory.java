@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ConnectionFactory {
+public class ConnectionFactory  {
     private String url="jdbc:postgresql://127.0.0.1:5432/acquaintance";
     private String user="postgres";
     private String password="Maxim2001";

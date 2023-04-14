@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UsersRepository implements UsersDao {
+public class  UsersRepository implements UsersDao {
     private ConnectionFactory connectionFactory = new ConnectionFactory();
 
     private static final String SelectByID = "SELECT idusers,age,discription,searchinterests " +

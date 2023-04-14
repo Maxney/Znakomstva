@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LikeUserRepository implements LikeUserDao {
+public class  LikeUserRepository implements LikeUserDao {
 
     public LikeUserRepository(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;

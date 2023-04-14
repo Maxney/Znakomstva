@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserPhotoRepository implements UserPhotoDao {
+public class  UserPhotoRepository implements UserPhotoDao {
     private ConnectionFactory connectionFactory = new ConnectionFactory();
 
     private static final String SelectByAdress = "SELECT iduserphoto,iduser,adress " +
