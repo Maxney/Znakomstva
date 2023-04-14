@@ -1,6 +1,6 @@
 create table users
 (
-    idusers         bigint not null
+    idusers         serial8 not null
         primary key,
     login           varchar(30),
     password        varchar(30),
@@ -15,7 +15,7 @@ alter table users
 
 create table UserPhoto
 (
-    iduserphoto bigint not null
+    iduserphoto serial8 not null
         primary key,
     iduser      bigint not null
         references users,
@@ -27,7 +27,7 @@ alter table userPhoto
 
 create table LikeUser
 (
-    idlikeuser bigint not null
+    idlikeuser serial8 not null
         primary key,
     iduser     bigint not null
         references Users,
@@ -39,7 +39,10 @@ alter table LikeUser
     owner to postgres;
 
 INSERT INTO users
-VALUES (2,'login','password','alias',20,'discription','{search,interests}');
+VALUES (3,'aaaaa','bbbbb','xxxxx',22,'discriptionnnnn','{aaaaaaccc,cccccccffff}');
 
 SELECT *
 from users
+
+DELETE FROM likeuser WHERE idlikeuser = 12
+DELETE FROM LikeUser WHERE idlikeuser = 13

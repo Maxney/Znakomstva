@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.dao.UsersDao;
 import org.example.entity.Users;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,12 +16,12 @@ public class UsersRepository implements UsersDao {
             "FROM users " +
             "WHERE idusers = ?";
 
-    private static final String SelectByAlias = "SELECT idusers,age,discription,searchinterests " +
+    private static final String SelectByAlias = "SELECT idusers,login,password,alias,discription,age,searchinterests " +
             "FROM users " +
             "WHERE alias = ?";
-    private static final String SelectInsert = "INSERT INTO" +
-            "users(idusers,login,password,alias,age,discription,searchinterests) " +
-            "VALUES(?,?,?,?,?,?,?)";
+    private static final String SelectInsert = "INSERT INTO " +
+            "users(login,password,alias,age,discription,searchinterests) " +
+            "VALUES(?,?,?,?,?,?)";
 
     private static final String SelectAll = "SELECT idusers, age, discription,searchinterests FROM users";
 
@@ -33,49 +34,29 @@ public class UsersRepository implements UsersDao {
             "discription = ?," +
             "searchinterests = ?";
 
-    private static final String SelectDelete = "DELETE FROM users WHERE id = ?";
+    private static final String SelectDelete = "DELETE FROM users WHERE idusers = ?";
 
     public UsersRepository(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
 
     @Override
-    public Users get(long id) throws SQLException {
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SelectByID);
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                Users users = new Users();
-                users.setId(resultSet.getLong("idusers"));
-                users.setDiscription(resultSet.getString("discription"));
-                List<String> interests = Collections.
-                        singletonList(String.valueOf(resultSet.getArray("searchInterests")));
-                users.setSearchInterests(interests);
-                return users;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void insert(Users users) throws SQLException {
+    public void insert(Users users) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectInsert);
-            statement.setLong(1, users.getId());
-            statement.setString(2, users.getLogin());
-            statement.setString(3, users.getPassword());
-            statement.setString(4, users.getAlias());
-            statement.setInt(5, users.getAge());
-            statement.setString(6, users.getDiscription());
-            statement.setArray(7, (Array) users.getSearchInterests());
+            statement.setString(1, users.getLogin());
+            statement.setString(2, users.getPassword());
+            statement.setString(3, users.getAlias());
+            statement.setInt(4, users.getAge());
+            statement.setString(5, users.getDiscription());
+            Array array=connection.createArrayOf("text",users.getSearchInterests().toArray());
+            statement.setArray(6,array);
             statement.executeUpdate();
         }
     }
 
-
     @Override
-    public List<Users> getAll() throws SQLException {
+    public List<Users> getAll() throws SQLException, IOException {
         List<Users> usersList = new ArrayList<>();
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectAll);
@@ -86,12 +67,12 @@ public class UsersRepository implements UsersDao {
                                 valueOf(statement.getGeneratedKeys().
                                         getArray("searchinterests")));
                 Users user = new Users(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("idusers"),
                         resultSet.getString("login"),
-                        resultSet.getString(" password"),
+                        resultSet.getString("password"),
                         resultSet.getString("alias"),
                         resultSet.getInt("age"),
-                        resultSet.getString("disription"),
+                        resultSet.getString("discription"),
                         searchinterests);
                 usersList.add(user);
             }
@@ -100,39 +81,10 @@ public class UsersRepository implements UsersDao {
     }
 
     @Override
-    public Users getById(Long id) throws SQLException {
+    public Users findByAlias(String name) throws SQLException, IOException {
         Users users = null;
         try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SelectByID);
-
-            statement.setLong(1, id);
-
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-
-                List<String> searchinterests = Collections.
-                        singletonList(String.
-                                valueOf(statement.getGeneratedKeys().
-                                        getArray("searchinterests")));
-                users = new Users(
-                        resultSet.getLong("id"),
-                        resultSet.getString("login"),
-                        resultSet.getString(" password"),
-                        resultSet.getString("alias"),
-                        resultSet.getInt("age"),
-                        resultSet.getString("disription"),
-                        searchinterests);
-            }
-
-            return users;
-        }
-    }
-
-    @Override
-    public Users findByAlias(String name) throws SQLException {
-        Users users = null;
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SelectByID);
+            PreparedStatement statement = connection.prepareStatement(SelectByAlias);
 
             statement.setString(1, name);
 
@@ -141,15 +93,14 @@ public class UsersRepository implements UsersDao {
 
                 List<String> searchinterests = Collections.
                         singletonList(String.
-                                valueOf(statement.getGeneratedKeys().
-                                        getArray("searchinterests")));
+                                valueOf(resultSet.getArray("searchinterests")));
                 users = new Users(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("idusers"),
                         resultSet.getString("login"),
-                        resultSet.getString(" password"),
+                        resultSet.getString("password"),
                         resultSet.getString("alias"),
                         resultSet.getInt("age"),
-                        resultSet.getString("disription"),
+                        resultSet.getString("discription"),
                         searchinterests);
             }
 
@@ -158,7 +109,7 @@ public class UsersRepository implements UsersDao {
     }
 
     @Override
-    public void update(Users users) throws SQLException {
+    public void update(Users users) throws SQLException, IOException {
 
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectUpdate);
@@ -168,18 +119,18 @@ public class UsersRepository implements UsersDao {
             statement.setString(4, users.getAlias());
             statement.setInt(5, users.getAge());
             statement.setString(6, users.getDiscription());
-            statement.setArray(7, (Array) users.getSearchInterests());
+            Array array=connection.createArrayOf("text",users.getSearchInterests().toArray());
+            statement.setArray(7, array);
             statement.executeUpdate();
         }
     }
 
     @Override
-    public void remove(Users users) throws SQLException {
+    public void remove(Users users) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SelectDelete);
             preparedStatement.setLong(1, users.getId());
             preparedStatement.executeUpdate();
         }
     }
-
 };

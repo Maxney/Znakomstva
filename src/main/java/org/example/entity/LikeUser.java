@@ -4,31 +4,37 @@ import java.util.Objects;
 
 public class LikeUser {
 
-    private long idLikeUser;
-    private long idUser;
-    private long idLikePhoto;
+    private Long idLikeUser;
+    private Long idUser;
+    private Long idLikePhoto;
 
-    public long getIdLikeUser() {
-        return idLikeUser;
+    public LikeUser(Long idLikeUser, Long idUser, Long idLikePhoto) {
+        this.idLikeUser = idLikeUser;
+        this.idUser = idUser;
+        this.idLikePhoto = idLikePhoto;
     }
 
-    public void setIdLikeUser(long idLikeUser) {
+    public Long getIdLikeUser() {
+        return idLikeUser.longValue();
+    }
+
+    public void setIdLikeUser(Long idLikeUser) {
         this.idLikeUser = idLikeUser;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public Long getIdUser() {
+        return idUser.longValue();
     }
 
-    public void setIdUser(long idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 
-    public long getIdLikePhoto() {
-        return idLikePhoto;
+    public Long getIdLikePhoto() {
+        return idLikePhoto.longValue();
     }
 
-    public void setIdLikePhoto(long idLikePhoto) {
+    public void setIdLikePhoto(Long idLikePhoto) {
         this.idLikePhoto = idLikePhoto;
     }
 
@@ -37,7 +43,16 @@ public class LikeUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LikeUser likeUser = (LikeUser) o;
-        return idLikeUser == likeUser.idLikeUser && idUser == likeUser.idUser && idLikePhoto == likeUser.idLikePhoto;
+        return idUser.equals(likeUser.idUser) &&
+                idLikePhoto.equals(likeUser.idLikePhoto);
+    }
+
+    @Override
+    public String toString() {
+        return "LikeUser{" +
+                ", idUser=" + idUser +
+                ", idLikePhoto=" + idLikePhoto +
+                '}';
     }
 
     @Override

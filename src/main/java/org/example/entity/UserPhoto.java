@@ -3,21 +3,27 @@ package org.example.entity;
 import java.util.Objects;
 
 public class UserPhoto {
-    private long idUserPhoto;
-    private long idUser;
+    private Long idUserPhoto;
+    private Long idUser;
 
     private String adress;
 
-    public long getIdUserPhoto() {
-        return idUserPhoto;
+    public UserPhoto(Long idUserPhoto, Long idUser, String adress) {
+        this.idUserPhoto = idUserPhoto;
+        this.idUser = idUser;
+        this.adress = adress;
+    }
+
+    public Long getIdUserPhoto() {
+        return idUserPhoto.longValue();
     }
 
     public void setIdUserPhoto(long idUserPhoto) {
         this.idUserPhoto = idUserPhoto;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public Long getIdUser() {
+        return idUser.longValue();
     }
 
     public void setIdUser(long idUser) {
@@ -35,7 +41,6 @@ public class UserPhoto {
     @Override
     public String toString() {
         return "UserPhoto{" +
-                "idUserPhoto=" + idUserPhoto +
                 ", idUser=" + idUser +
                 ", adress='" + adress + '\'' +
                 '}';
@@ -46,7 +51,7 @@ public class UserPhoto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserPhoto userPhoto = (UserPhoto) o;
-        return idUserPhoto == userPhoto.idUserPhoto && idUser == userPhoto.idUser && adress.equals(userPhoto.adress);
+        return Objects.equals(idUser, userPhoto.idUser) && Objects.equals(adress, userPhoto.adress);
     }
 
     @Override

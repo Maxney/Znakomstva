@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Users {
-    private long id;
+    private Long id;
     private String login;
     private String password;
     private String alias;
@@ -12,8 +12,8 @@ public class Users {
     private String discription;
     private List<String> searchInterests;
 
-    public Users(long id,String login,String password,String alias,
-                 int age,String discription,List<String> searchInterests) {
+    public Users(Long id, String login, String password, String alias,
+                 int age, String discription, List<String> searchInterests) {
         this.id=id;
         this.login=login;
         this.password=password;
@@ -22,15 +22,11 @@ public class Users {
         this.discription=discription;
         this.searchInterests=searchInterests;
     }
-    public Users(){
-
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -87,27 +83,26 @@ public class Users {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Users users = (Users) o;
-        return id == users.id && age == users.age && login.equals(users.login)
+        return  age == users.age && login.equals(users.login)
                 && password.equals(users.password) && alias.equals(users.alias)
-                && discription.equals(users.discription)
-                && searchInterests.equals(users.searchInterests);
+                && discription.equals(users.discription);
     }
 
     @Override
     public String toString() {
-        return "Users{" +
-                "id=" + id +
+        return "Users "+
+                "id= "+id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", alias='" + alias + '\'' +
                 ", age=" + age +
                 ", discription='" + discription + '\'' +
-                ", searchInterests=" + searchInterests +
-                '}';
+                ", searchInterests=" + searchInterests;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, login, password, alias, age, discription, searchInterests);
     }
+
 }

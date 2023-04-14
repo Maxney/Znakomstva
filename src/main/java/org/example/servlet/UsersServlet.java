@@ -27,7 +27,7 @@ public class UsersServlet extends HttpServlet {
         }
         UsersRepository usersRepository=new UsersRepository(connectionFactory);
         try {
-            req.setAttribute("users", usersRepository.get(2).getId());
+            req.setAttribute("users", usersRepository.findByAlias("alias").getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
