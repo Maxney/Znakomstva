@@ -1,6 +1,5 @@
 package org.example.repository;
 
-import org.example.dao.UserPhotoDao;
 import org.example.entity.UserPhoto;
 
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class  UserPhotoRepository implements UserPhotoDao {
+public class  UserPhotoRepository  {
     private ConnectionFactory connectionFactory = new ConnectionFactory();
 
     private static final String SelectByAdress = "SELECT iduserphoto,iduser,adress " +
@@ -34,7 +33,7 @@ public class  UserPhotoRepository implements UserPhotoDao {
         this.connectionFactory = connectionFactory;
     }
 
-    @Override
+
     public void insert(UserPhoto userPhoto) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectInsert);
@@ -43,8 +42,6 @@ public class  UserPhotoRepository implements UserPhotoDao {
             statement.executeUpdate();
         }
     }
-
-    @Override
     public List<UserPhoto> getAll() throws SQLException, IOException {
         List<UserPhoto> userPhotos = new ArrayList<>();
         try (Connection connection = connectionFactory.getConnection()) {
@@ -61,7 +58,6 @@ public class  UserPhotoRepository implements UserPhotoDao {
         return userPhotos;
     }
 
-    @Override
     public UserPhoto getByAdress(String adress) throws SQLException, IOException {
         UserPhoto userPhoto = null;
         try (Connection connection = connectionFactory.getConnection()) {
@@ -81,7 +77,7 @@ public class  UserPhotoRepository implements UserPhotoDao {
         }
     }
 
-    @Override
+
     public void update(UserPhoto userPhoto) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectUpdate);
@@ -91,7 +87,6 @@ public class  UserPhotoRepository implements UserPhotoDao {
         }
     }
 
-    @Override
     public void remove(UserPhoto userPhoto) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SelectDelete);

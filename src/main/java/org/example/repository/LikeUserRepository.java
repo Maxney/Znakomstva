@@ -1,16 +1,13 @@
 package org.example.repository;
 
-import org.example.dao.LikeUserDao;
 import org.example.entity.LikeUser;
-import org.example.entity.Users;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class  LikeUserRepository implements LikeUserDao {
+public class  LikeUserRepository  {
 
     public LikeUserRepository(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
@@ -36,7 +33,6 @@ public class  LikeUserRepository implements LikeUserDao {
 
     private static final String SelectDelete = "DELETE FROM likeuser WHERE iduser = ?";
 
-    @Override
     public void insert(LikeUser likeUser) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectInsert);
@@ -45,8 +41,6 @@ public class  LikeUserRepository implements LikeUserDao {
             statement.executeUpdate();
         }
     }
-
-    @Override
     public List<LikeUser> getAll() throws SQLException, IOException {
         List<LikeUser> likeUsers = new ArrayList<>();
         try (Connection connection = connectionFactory.getConnection()) {
@@ -62,9 +56,6 @@ public class  LikeUserRepository implements LikeUserDao {
         }
         return likeUsers;
     }
-
-
-    @Override
     public LikeUser getById(Long id) throws SQLException, IOException {
         LikeUser likeUser = null;
         try (Connection connection = connectionFactory.getConnection()) {
@@ -83,8 +74,6 @@ public class  LikeUserRepository implements LikeUserDao {
             return likeUser;
         }
     }
-
-    @Override
     public void update(LikeUser likeUser) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectUpdate);
@@ -95,7 +84,6 @@ public class  LikeUserRepository implements LikeUserDao {
         }
     }
 
-    @Override
     public void remove(LikeUser likeUser) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SelectDelete);
