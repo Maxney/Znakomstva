@@ -1,6 +1,5 @@
 package org.example.repository;
 
-import org.example.dao.UsersDao;
 import org.example.entity.Users;
 
 import java.io.IOException;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class  UsersRepository implements UsersDao {
+public class  UsersRepository  {
     private ConnectionFactory connectionFactory = new ConnectionFactory();
 
     private static final String SelectByID = "SELECT idusers,age,discription,searchinterests " +
@@ -40,7 +39,7 @@ public class  UsersRepository implements UsersDao {
         this.connectionFactory = connectionFactory;
     }
 
-    @Override
+
     public void insert(Users users) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(SelectInsert);
@@ -55,7 +54,6 @@ public class  UsersRepository implements UsersDao {
         }
     }
 
-    @Override
     public List<Users> getAll() throws SQLException, IOException {
         List<Users> usersList = new ArrayList<>();
         try (Connection connection = connectionFactory.getConnection()) {
@@ -80,7 +78,6 @@ public class  UsersRepository implements UsersDao {
         return usersList;
     }
 
-    @Override
     public Users findByAlias(String name) throws SQLException, IOException {
         Users users = null;
         try (Connection connection = connectionFactory.getConnection()) {
@@ -108,7 +105,7 @@ public class  UsersRepository implements UsersDao {
         }
     }
 
-    @Override
+
     public void update(Users users) throws SQLException, IOException {
 
         try (Connection connection = connectionFactory.getConnection()) {
@@ -124,8 +121,6 @@ public class  UsersRepository implements UsersDao {
             statement.executeUpdate();
         }
     }
-
-    @Override
     public void remove(Users users) throws SQLException, IOException {
         try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SelectDelete);
